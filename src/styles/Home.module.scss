@@ -26,7 +26,7 @@ $primary-color: blueviolet;
   padding: 0;
   margin: 5em 0;
 
-  li {
+  & > li {
     margin-bottom: 3em;
     &:last-child {
       margin-bottom: 0;
@@ -41,27 +41,4 @@ $primary-color: blueviolet;
       margin-bottom: 0;
     }
   }
-}
-
-
-
-.formContent {
-  width: 100%;
-  font-size: 1.4em;
-  padding: 0.8em;
-  font-family: 'Source Sans Pro', sans-serif;
-  min-height: 6em;
-  border: 2px solid #7c7c7c;
-  box-sizing: border-box;
-  border-radius: 5px;
-  margin-bottom: 1em;
-}
-
-.formButton {
-  background: #4948a7;
-  border-radius: 5px;
-  color: white;
-  border: 0;
-  padding: 0.6em 1em;
-  font-size: 1.1em;
 }
