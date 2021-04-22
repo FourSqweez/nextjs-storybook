@@ -2,6 +2,15 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import Post from '../components/Post'
 import PostForm from '../components/PostForm'
+import Bio from '../components/Bio'
+
+const bio = {
+  headShot:
+    'https://pbs.twimg.com/profile_images/1355118779974475776/9qZHpzCF_400x400.jpg',
+  name: 'Four Sqweez',
+  tagline: "I don't know",
+  role: 'Frontend developer',
+}
 
 export default function Home() {
   return (
@@ -12,7 +21,14 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>My Posts</h1>
+        {bio && (
+          <Bio
+            headShot={bio.headShot}
+            name={bio.name}
+            tagline={bio.tagline}
+            role={bio.role}
+          />
+        )}
 
         <ul className={styles.post}>
           <li>
