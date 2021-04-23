@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.scss'
 import Post from '../components/Post'
 import PostForm from '../components/PostForm'
 import Bio from '../components/Bio'
+import { useAuth } from '../hooks/useAuth'
 
 const bio = {
   headShot:
@@ -13,6 +14,8 @@ const bio = {
 }
 
 export default function Home() {
+  const auth = useAuth()
+  console.log('auth', auth)
   return (
     <div className={styles.container}>
       <Head>
