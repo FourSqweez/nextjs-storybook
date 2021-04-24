@@ -13,9 +13,8 @@ const bio = {
   role: 'Frontend developer',
 }
 
-export default function Home() {
+export default function Home({ posts }) {
   const { user, logIn, logOut } = useAuth()
-  console.log('user:', user)
 
   return (
     <div className={styles.container}>
@@ -47,36 +46,42 @@ export default function Home() {
         )}
 
         <ul className={styles.post}>
-          <li>
-            <Post content="Hey, I'm a new post!" date="3/2/2021" />
-          </li>
-          <li>
-            <Post
-              content="
-              I’m working in Figma trying to design a new website that shows all
-              of my tweets!"
-              date="4/19/2021"
-            />
-          </li>
-          <li>
-            <Post
-              content="
-              I’m working in Figma trying to design a new website that shows all
-              of my tweets!"
-              date="4/19/2021"
-            />
-          </li>
-          <li>
-            <Post
-              content="
-              I’m working in Figma trying to design a new website that shows all
-              of my tweets!"
-              date="4/19/2021"
-            />
-          </li>
+          {posts.map((post) => {
+            const { content, id, date } = post
+            return (
+              <li key={id}>
+                <Post content={content} date={date} />
+              </li>
+            )
+          })}
         </ul>
         {user && <PostForm />}
       </main>
     </div>
   )
+}
+
+export async function getStaticProps() {
+  const response = await fetch(
+    'https://api.airtable.com/v0/appXYlM8omAz2zpOp/Posts',
+    {
+      headers: {
+        Authorization: `Bearer keyvBYkzWi8cTAwcP`,
+      },
+    }
+  )
+  const { records } = await response.json()
+
+  const posts = records.map((record) => {
+    return {
+      id: record.id,
+      ...record.fields,
+    }
+  })
+
+  return {
+    props: {
+      posts,
+    },
+  }
 }
