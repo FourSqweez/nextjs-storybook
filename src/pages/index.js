@@ -14,14 +14,27 @@ const bio = {
 }
 
 export default function Home() {
-  const auth = useAuth()
-  console.log('auth', auth)
+  const { user, logIn, logOut } = useAuth()
+  console.log('user:', user)
+
   return (
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      {!user && (
+        <p>
+          <button onClick={logIn}>Log In</button>
+        </p>
+      )}
+
+      {user && (
+        <p>
+          <button onClick={logOut}>Log Out</button>
+        </p>
+      )}
 
       <main className={styles.main}>
         {bio && (
@@ -62,7 +75,7 @@ export default function Home() {
             />
           </li>
         </ul>
-        <PostForm />
+        {user && <PostForm />}
       </main>
     </div>
   )
