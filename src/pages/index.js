@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import Post from '../components/Post'
@@ -13,7 +14,21 @@ const bio = {
   role: 'Frontend developer',
 }
 
-export default function Home({ posts }) {
+export default function Home({ posts: defaultPosts }) {
+  const [posts, updatePosts] = useState(defaultPosts)
+
+  useEffect(() => {
+    const run = async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/posts`
+      )
+      const { posts } = await response.json()
+      updatePosts(posts)
+    }
+
+    run()
+  }, [])
+
   const { user, logIn, logOut } = useAuth()
 
   return (
@@ -69,21 +84,9 @@ export default function Home({ posts }) {
 
 export async function getStaticProps() {
   const response = await fetch(
-    `https://api.airtable.com/v0/${process.env.AIR_TABLE_BASE_ID}/Posts`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.AIR_TABLE_API_KEY}`,
-      },
-    }
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/posts`
   )
-  const { records } = await response.json()
-
-  const posts = records.map((record) => {
-    return {
-      id: record.id,
-      ...record.fields,
-    }
-  })
+  const { posts } = await response.json()
 
   return {
     props: {
