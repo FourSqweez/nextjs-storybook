@@ -69,10 +69,10 @@ export default function Home({ posts }) {
 
 export async function getStaticProps() {
   const response = await fetch(
-    'https://api.airtable.com/v0/appXYlM8omAz2zpOp/Posts',
+    `https://api.airtable.com/v0/${process.env.AIR_TABLE_BASE_ID}/Posts`,
     {
       headers: {
-        Authorization: `Bearer keyvBYkzWi8cTAwcP`,
+        Authorization: `Bearer ${process.env.AIR_TABLE_API_KEY}`,
       },
     }
   )
