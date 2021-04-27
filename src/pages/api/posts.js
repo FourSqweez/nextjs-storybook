@@ -25,7 +25,25 @@ export default async (req, res) => {
   }
 
   if (req.method === 'POST') {
+    const { authorization } = req.headers
+
+    const auth = await fetch(`${process.env.NEXT_PUBLIC_AUTH_ENDPOINT}/user`, {
+      headers: {
+        Authorization: authorization,
+      },
+    })
+
+    const authJson = await auth.json()
+
+    if (!authJson.id) {
+      res.status(404).json({
+        error: 'Invalid token',
+      })
+      return
+    }
+
     const { data: { content } = {} } = JSON.parse(req.body)
+
     const data = {
       records: [
         {

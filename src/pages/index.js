@@ -5,7 +5,7 @@ import Post from '../components/Post'
 import PostForm from '../components/PostForm'
 import Bio from '../components/Bio'
 import { useAuth } from '../hooks/useAuth'
-import { getAllPosts } from '../lib/posts'
+import { getAllPosts,createPost } from '../lib/posts'
 
 const bio = {
   headShot:
@@ -22,6 +22,9 @@ export default function Home({ posts: defaultPosts }) {
 
   async function handleOnSubmit(data, e) {
     e.preventDefault()
+
+    await createPost(data)
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/posts`,
       {
